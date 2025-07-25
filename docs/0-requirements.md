@@ -2,18 +2,18 @@
 
 ## Identified Problem or Need
 
-Replace this text with a clearly stated problem or need that exists that your project will attempt to solve / fulfil.
-
+Vehicle owners often struggle to keep track of maintenance, leading to missed services, breakdowns, and reduced lifespan of their vehicles.
 
 ## End-User Requirements
 
-Replace this text with a description of your typical end-users and their specific needs / expectations / requirements.
+In this case the end users will be my parents as they told me currently they have the problem of forgetting to maintain their vehicles at the right intervals/mileage 
+The typical end users of my maintenance tracker website are individual vehicle owners. These users need a simple and intuitive tool to help them keep track of maintenance tasks without complexity.
 
+The system must allow users to log completed maintenance activities with details including date, mileage or engine hours, and additional notes. It should provide reminders for upcoming or overdue services based on time intervals or usage metrics. Users need the ability to update odometer or engine hour readings to keep maintenance scheduling accurate. The website should support managing multiple vehicles within one account. Lastly, users need a dashboard that summarizes recent maintenance activities and highlights upcoming service needs for a quick and easy reference.    
 
 ## Proposed Solution
 
-Replace this text with a brief statement about the system that you intend to create, including the key functionality it should have.
-
+A web-based tool that helps users track maintenance and receive reminders to keep their vehicles and equipment in good condition.
 
 ---
 
