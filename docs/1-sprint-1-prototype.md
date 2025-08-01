@@ -5,16 +5,15 @@
 
 Develop a prototype that simulates the key functionality of the system, then test and refine it so that it can serve as the model for the next phase of development in Sprint 2.
 
-[Figma](https://www.figma.com/) is used to develop the prototype.
+[Figma](https://www.figma.com/design/3xvhbf0oNIssvHvngZwedf/300dtd-demo-to-do-list?node-id=0-1&p=f&t=gwqM7lWv4cwaPTXF-0) is used to develop the prototype.
 
 
 ---
 
 ## Initial Database Design
+4 tables users, vehicles, user_vehicles, and info. all four of them are used to store infomation mainly about what vehicles users own, what has been done serivce wise to the vehicles and keeping the data of the users that have an account for a swift re login when re visitng the website agian.
 
-Replace this text with notes regarding the DB design.
-
-![SCREENSHOT OF DB DESIGN](screenshots/example.png)
+![SCREENSHOT OF DB DESIGN](C:\Users\thewm\Downloads\611f0bb4-3d5f-47cb-8229-70918a9ead13.png)
 
 
 ### Required Data Input
