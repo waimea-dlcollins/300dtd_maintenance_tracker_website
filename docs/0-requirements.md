@@ -21,7 +21,7 @@ A web-based tool that helps users track maintenance and receive reminders to kee
 
 ## NAME OF IMPLICATION 1
 
-Replace this text with a clear explanation of what the implication means.
+Replace this text with a clear enxplanation of what the implication means.
 
 ### Relevance to the System
 
