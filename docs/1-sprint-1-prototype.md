@@ -5,7 +5,7 @@
 
 Develop a prototype that simulates the key functionality of the system, then test and refine it so that it can serve as the model for the next phase of development in Sprint 2.
 
-[Figma](https://www.figma.com/design/3xvhbf0oNIssvHvngZwedf/300dtd-demo-to-do-list?node-id=0-1&p=f&t=gwqM7lWv4cwaPTXF-0) is used to develop the prototype.
+[Figma](https://www.figma.com/design/3xvhbf0oNIssvHvngZwedf/300dtd-demo-to-do-list?node-id=0-1&p=f&t=gwqM7lWv4cwaPTXF-0) is  used to develop the prototype.
 
 
 ---
@@ -13,21 +13,16 @@ Develop a prototype that simulates the key functionality of the system, then tes
 ## Initial Database Design
 4 tables users, vehicles, user_vehicles, and info. all four of them are used to store infomation mainly about what vehicles users own, what has been done serivce wise to the vehicles and keeping the data of the users that have an account for a swift re login when re visitng the website agian.
 
-![SCREENSHOT OF DB DESIGN](C:\Users\thewm\Downloads\611f0bb4-3d5f-47cb-8229-70918a9ead13.png)
+![SCREENSHOT OF DB DESIGN](screenshot_of_database.png)
 
-
+ 
 ### Required Data Input
-
-Replace this text with a description of what data will be input, and where / how it will be obtained.
-
+one of the main required data inputs that will be needed for my maintenance tracker will be the what has been done to the vehicle (service wise). this speific piece of data will be very important because without it the user anda admin of the website wont know what has been done to the vehicle. also without this data it would be impossible to know when to do the same service again because the user wont know what had been done.
 ### Required Data Output
-
-Replace this text with a description of the outputs for the system - what types of data will be displayed?
-
+the types of data that will be displayed is text, as it will display what has happened to the vehicle (service wise). it will be displayed on the mainteance tracker section of my website that will show the allocated user what has happened to their car.
 ### Required Data Processing
-
 Replace this text with a description of how the data will be processed to achieve the desired output(s) - any processes / formulae?
-
+the data will be processed quite simply. this tracker will rely on the user to input what has happened to their vehicle (service wise). once this has happened successfully the data will be processed throughout the database and then stored into the list of servicing that has happened to the speific users vehicle. this is simple and effective. 
 
 ---
 
@@ -37,17 +32,14 @@ The first stage of prototyping was to explore how the UI might 'flow' between st
 
 This Figma demo shows the initial design for the UI 'flow':
 
-**FIGMA FLOW - PLACE THE FIGMA EMBED CODE HERE - MAKE SURE IT IS SET SO THAT EVERYONE CAN ACCESS IT**
-
+<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://embed.figma.com/design/3xvhbf0oNIssvHvngZwedf/300dtd-demo-to-do-list?node-id=0-1&embed-host=share" allowfullscreen></iframe>
 ### Testing
 
-Replace this text with notes about what you did to test the UI flow and the outcome of the testing.
-
+I tested the UI flow my creating it and then going into the point of view of a phone and computer screen and seeing what it would look like visually for the user when they are moving throughout my website. I also made sure that all of the buttons worked so the users could efficiently maneuver throughout the website.
 ### Changes / Improvements
+I though after testing that there needed to be more infomation around all of the features like the text boxes. so above them i made sure to write a short descripiton of what is meant to be written there to assist the user in doing things such as logging in to the website.
 
-Replace this text with notes any improvements you made as a result of the testing.
-
-*IMPROVED FIGMA FLOW - PLACE THE FIGMA EMBED CODE HERE - MAKE SURE IT IS SET SO THAT EVERYONE CAN ACCESS IT*
+<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://embed.figma.com/design/3xvhbf0oNIssvHvngZwedf/300dtd-demo-to-do-list?node-id=0-1&embed-host=share" allowfullscreen></iframe>
 
 
 ---
