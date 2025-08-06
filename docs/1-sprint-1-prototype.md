@@ -50,18 +50,16 @@ The next stage of prototyping was to develop the layout for each screen of the U
 
 This Figma demo shows the initial layout design for the UI:
 
-*FIGMA PROTOTYPE - PLACE THE FIGMA EMBED CODE HERE - MAKE SURE IT IS SET SO THAT EVERYONE CAN ACCESS IT*
+<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://embed.figma.com/design/3xvhbf0oNIssvHvngZwedf/300dtd-demo-to-do-list?node-id=0-1&embed-host=share" allowfullscreen></iframe>
 
 ### Testing
-
-Replace this text with notes about what you did to test the UI flow and the outcome of the testing.
-
+when i was testing the UI and flow i asked my end users what they thought about the current UI Prototype and what could be improved overall. They said things like the colour of the buttons, labeling them more clearly and to use dummy data in the boxes so the users can get a better understanding of what is meant to be in the boxes.
 ### Changes / Improvements
 
 Replace this text with notes any improvements you made as a result of the testing.
-
-*FIGMA IMPROVED PROTOTYPE - PLACE THE FIGMA EMBED CODE HERE - MAKE SURE IT IS SET SO THAT EVERYONE CAN ACCESS IT*
-
+as a result of this testing i made some signficant improvements over the other version of my figma demo. i added dummy data so that the users can understand what is needed to be placed in the text boxes. i coloured the buttons so that it makes sense what it does, red = bad, green = good. and finally i labeled all of the querys more clearly so that users would understand what is needed to be typed.  
+  
+<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://embed.figma.com/design/3xvhbf0oNIssvHvngZwedf/300dtd-demo-to-do-list?node-id=0-1&embed-host=share" allowfullscreen></iframe>
 
 ---
 
