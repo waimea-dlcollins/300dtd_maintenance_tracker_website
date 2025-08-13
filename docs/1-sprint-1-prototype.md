@@ -52,7 +52,7 @@ The next stage of prototyping was to develop the layout for each screen of the U
 This Figma demo shows the initial layout design for the UI:
 
 <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://embed.figma.com/design/3xvhbf0oNIssvHvngZwedf/300dtd-demo-to-do-list?node-id=0-1&embed-host=share" allowfullscreen></iframe
-    
+
 ### Testing
 when i was testing the UI and flow i asked my end users what they thought about the current UI Prototype and what could be improved overall. They said things like the colour of the buttons, labeling them more clearly and to use dummy data in the boxes so the users can get a better understanding of what is meant to be in the boxes.
 ### Changes / Improvements
