@@ -45,28 +45,47 @@ def about():
 
 
 #-----------------------------------------------------------
-# Things page route - Show all the things, and new thing form
+# Vehicle list route
 #-----------------------------------------------------------
-@app.get("/things/")
-def show_all_things():
+@app.get("/vehicle.list/")
+def vehicle_list():
+    return render_template("pages/vehicle.list.jinja")
+
+#-----------------------------------------------------------
+#add/edit a vehicle route
+#-----------------------------------------------------------
+@app.get("/add.edit.a.vehicle")
+def add_edit_a_vehicle():
+    return render_template("pages/add.edit.a.vehicle.jinja")
+
+
+#-----------------------------------------------------------
+# details page route - Show all the details, and new details form
+#-----------------------------------------------------------
+@app.get("/details/")
+def show_all_details():
     with connect_db() as client:
-        # Get all the things from the DB
+        # Get all info logs for vehicles, including the owner
         sql = """
-            SELECT things.id,
-                   things.name,
+            SELECT info.id,
+                   info.action_taken,
+                   info.details,
+                   info.date,
+                   info.odometer_kms,
+                   vehicles.name AS vehicle_name,
                    users.name AS owner
-
-            FROM things
-            JOIN users ON things.user_id = users.id
-
-            ORDER BY things.name ASC
+            FROM info
+            JOIN vehicles ON info.vehicle_id = vehicles.id
+            JOIN user_vehicles ON vehicles.id = user_vehicles.vehicle_id
+            JOIN users ON user_vehicles.user_id = users.id
+            ORDER BY info.date DESC
         """
-        params=[]
+        params = []
         result = client.execute(sql, params)
-        things = result.rows
+        logs = result.rows
 
         # And show them on the page
-        return render_template("pages/things.jinja", things=things)
+        return render_template("pages/things.jinja", things=logs)
 
 
 #-----------------------------------------------------------
@@ -184,7 +203,7 @@ def add_user():
 
     with connect_db() as client:
         # Attempt to find an existing record for that user
-        sql = "SELECT * FROM users WHERE username = ?"
+        sql = "SELECT * FROM USERS WHERE username = ?"
         params = [username]
         result = client.execute(sql, params)
 
@@ -197,7 +216,7 @@ def add_user():
             hash = generate_password_hash(password)
 
             # Add the user to the users table
-            sql = "INSERT INTO users (name, username, password_hash) VALUES (?, ?, ?)"
+            sql = "INSERT INTO USERS (name, username, password_hash) VALUES (?, ?, ?)"
             params = [name, username, hash]
             client.execute(sql, params)
 
@@ -221,7 +240,7 @@ def login_user():
 
     with connect_db() as client:
         # Attempt to find a record for that user
-        sql = "SELECT * FROM users WHERE username = ?"
+        sql = "SELECT * FROM USERS WHERE username = ?"
         params = [username]
         result = client.execute(sql, params)
 
