@@ -58,6 +58,14 @@ def vehicle_list():
 def add_edit_a_vehicle():
     return render_template("pages/add.edit.a.vehicle.jinja")
 
+#-----------------------------------------------------------
+#maintenance info route 
+#-----------------------------------------------------------
+@app.get("/maintenance.info")
+def maintenance_info():
+    return render_template("pages/maintenance info.jinja")
+
+
 
 #-----------------------------------------------------------
 # details page route - Show all the details, and new details form
@@ -67,20 +75,17 @@ def show_all_details():
     with connect_db() as client:
         # Get all info logs for vehicles, including the owner
         sql = """
-            SELECT info.id,
-                   info.action_taken,
-                   info.details,
-                   info.date,
-                   info.odometer_kms,
-                   vehicles.name AS vehicle_name,
-                   users.name AS owner
-            FROM info
-            JOIN vehicles ON info.vehicle_id = vehicles.id
-            JOIN user_vehicles ON vehicles.id = user_vehicles.vehicle_id
-            JOIN users ON user_vehicles.user_id = users.id
-            ORDER BY info.date DESC
+          CREATE TABLE INFO (
+    id           INTEGER PRIMARY KEY,
+    vehicle_id   INTEGER NOT NULL
+                         REFERENCES VEHICLES (id),
+    action_taken TEXT,
+    [details ]   TEXT,
+    [date ]      INTEGER NOT NULL,
+    odometer_kms INTEGER
+);
         """
-        params = []
+        params = [] 
         result = client.execute(sql, params)
         logs = result.rows
 
@@ -96,16 +101,15 @@ def show_one_thing(id):
     with connect_db() as client:
         # Get the thing details from the DB, including the owner info
         sql = """
-            SELECT things.id,
-                   things.name,
-                   things.price,
-                   things.user_id,
-                   users.name AS owner
-
-            FROM things
-            JOIN users ON things.user_id = users.id
-
-            WHERE things.id=?
+           CREATE TABLE INFO (
+    id           INTEGER PRIMARY KEY,
+    vehicle_id   INTEGER NOT NULL
+                         REFERENCES VEHICLES (id),
+    action_taken TEXT,
+    [details ]   TEXT,
+    [date ]      INTEGER NOT NULL,
+    odometer_kms INTEGER
+);
         """
         params = [id]
         result = client.execute(sql, params)
