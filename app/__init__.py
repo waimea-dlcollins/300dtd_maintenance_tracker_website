@@ -1,8 +1,8 @@
 #===========================================================
-# YOUR PROJECT TITLE HERE
-# YOUR NAME HERE
+# Maintenance Tracker
+# Dylan collins
 #-----------------------------------------------------------
-# BRIEF DESCRIPTION OF YOUR PROJECT HERE
+# maintenance tracker used for tracking vehicle maintenance throughout life of vehicles 
 #===========================================================
 
 
@@ -20,7 +20,7 @@ from app.helpers.time    import init_datetime, utc_timestamp, utc_timestamp_now
 
 # Create the app
 app = Flask(__name__)
-
+app.secret_key = "random_secret_key"
 # Configure app
 init_session(app)   # Setup a session for messages, etc.
 init_logging(app)   # Log requests
@@ -74,105 +74,56 @@ def maintenance_info():
 def show_all_details():
     with connect_db() as client:
         # Get all info logs for vehicles, including the owner
-        sql = """
-          CREATE TABLE INFO (
-    id           INTEGER PRIMARY KEY,
-    vehicle_id   INTEGER NOT NULL
-                         REFERENCES VEHICLES (id),
-    action_taken TEXT,
-    [details ]   TEXT,
-    [date ]      INTEGER NOT NULL,
-    odometer_kms INTEGER
-);
-        """
-        params = [] 
-        result = client.execute(sql, params)
+        sql = "SELECT * FROM INFO"
+        result = client.execute(sql)
         logs = result.rows
 
-        # And show them on the page
-        return render_template("pages/things.jinja", things=logs)
+        return render_template("pages/details.jinja", details=logs)
 
-
-#-----------------------------------------------------------
-# Thing page route - Show details of a single thing
-#-----------------------------------------------------------
-@app.get("/thing/<int:id>")
-def show_one_thing(id):
-    with connect_db() as client:
-        # Get the thing details from the DB, including the owner info
-        sql = """
-           CREATE TABLE INFO (
-    id           INTEGER PRIMARY KEY,
-    vehicle_id   INTEGER NOT NULL
-                         REFERENCES VEHICLES (id),
-    action_taken TEXT,
-    [details ]   TEXT,
-    [date ]      INTEGER NOT NULL,
-    odometer_kms INTEGER
-);
-        """
-        params = [id]
-        result = client.execute(sql, params)
-
-        # Did we get a result?
-        if result.rows:
-            # yes, so show it on the page
-            thing = result.rows[0]
-            return render_template("pages/thing.jinja", thing=thing)
-
-        else:
-            # No, so show error
-            return not_found_error()
 
 
 #-----------------------------------------------------------
-# Route for adding a thing, using data posted from a form
-# - Restricted to logged in users
+# Route for adding a log.
 #-----------------------------------------------------------
 @app.post("/add")
 @login_required
-def add_a_thing():
-    # Get the data from the form
-    name  = request.form.get("name")
-    price = request.form.get("price")
-
-    # Sanitise the text inputs
-    name = html.escape(name)
-
-    # Get the user id from the session
-    user_id = session["user_id"]
+def add_a_log():
+    vehicle_id  = html.escape(request.form.get("vehicle_id"))
+    action_taken = html.escape(request.form.get("action_taken", ""))
+    details      = html.escape(request.form.get("details", ""))
+    odometer_kms = request.form.get("odometer_kms")
+  
 
     with connect_db() as client:
-        # Add the thing to the DB
-        sql = "INSERT INTO things (name, price, user_id) VALUES (?, ?, ?)"
-        params = [name, price, user_id]
+        sql = """
+        INSERT INTO INFO (vehicle_id, action_taken, details, odometer_kms)
+        VALUES (?, ?, ?, ?)
+        """
+        params = [vehicle_id, action_taken, details, odometer_kms]
         client.execute(sql, params)
 
-        # Go back to the home page
-        flash(f"Thing '{name}' added", "success")
-        return redirect("/things")
+    flash(f"Maintenance log for vehicle {vehicle_id} added", "success")
+    return redirect("/")
 
 
 #-----------------------------------------------------------
-# Route for deleting a thing, Id given in the route
-# - Restricted to logged in users
+# Route for deleting a log.
 #-----------------------------------------------------------
 @app.get("/delete/<int:id>")
 @login_required
-def delete_a_thing(id):
-    # Get the user id from the session
+def delete_a_log(id):
     user_id = session["user_id"]
 
     with connect_db() as client:
-        # Delete the thing from the DB only if we own it
-        sql = "DELETE FROM things WHERE id=? AND user_id=?"
-        params = [id, user_id]
-        client.execute(sql, params)
+        # Only allow deleting if the user owns the vehicle
+        sql = """
+        DELETE FROM INFO
+        WHERE id = ? AND vehicle_id IN (SELECT id FROM VEHICLES WHERE user_id = ?)
+        """
+        client.execute(sql, [id, user_id])
 
-        # Go back to the home page
-        flash("Thing deleted", "success")
-        return redirect("/things")
-
+    flash("Maintenance log deleted", "success")
+    return redirect("/")
 
 
 
@@ -196,91 +147,78 @@ def login_form():
 
 
 #-----------------------------------------------------------
-# Route for adding a user when registration form submitted
+# Registration route
 #-----------------------------------------------------------
 @app.post("/add-user")
 def add_user():
-    # Get the data from the form
-    name = request.form.get("name")
-    username = request.form.get("username")
-    password = request.form.get("password")
+    name     = html.escape(request.form.get("name") or "")
+    username = html.escape(request.form.get("username") or "")
+    password = request.form.get("password")  # raw, do NOT escape
 
-    with connect_db() as client:
-        # Attempt to find an existing record for that user
-        sql = "SELECT * FROM USERS WHERE username = ?"
-        params = [username]
-        result = client.execute(sql, params)
-
-        # No existing record found, so safe to add the user
-        if not result.rows:
-            # Sanitise the name
-            name = html.escape(name)
-
-            # Salt and hash the password
-            hash = generate_password_hash(password)
-
-            # Add the user to the users table
-            sql = "INSERT INTO USERS (name, username, password_hash) VALUES (?, ?, ?)"
-            params = [name, username, hash]
-            client.execute(sql, params)
-
-            # And let them know it was successful and they can login
-            flash("Registration successful", "success")
-            return redirect("/login")
-
-        # Found an existing record, so prompt to try again
-        flash("Username already exists. Try again...", "error")
+    if not username or not password:
+        flash("Username and password are required", "error")
         return redirect("/register")
 
+    with connect_db() as client:
+        # Check if username exists
+        sql = "SELECT 1 FROM USERS WHERE username = ?"
+        result = client.execute(sql, [username])
+        print("Check existing username:", result.rows)
+
+        if result.rows:
+            flash("Username already exists", "error")
+            return redirect("/register")
+
+        # Hash password
+        password_hash = generate_password_hash(password)
+        sql = "INSERT INTO USERS (name, username, password_hash) VALUES (?, ?, ?)"
+        client.execute(sql, [name, username, password_hash])
+        print(f"User {username} inserted with hash {password_hash}")
+
+    flash("Registration successful. Please login.", "success")
+    return redirect("/login")
 
 #-----------------------------------------------------------
-# Route for processing a user login
+# Login route
 #-----------------------------------------------------------
 @app.post("/login-user")
 def login_user():
-    # Get the login form data
-    username = request.form.get("username")
-    password = request.form.get("password")
+    username = html.escape(request.form.get("username") or "")
+    password = request.form.get("password")  # raw!
 
-    with connect_db() as client:
-        # Attempt to find a record for that user
-        sql = "SELECT * FROM USERS WHERE username = ?"
-        params = [username]
-        result = client.execute(sql, params)
-
-        # Did we find a record?
-        if result.rows:
-            # Yes, so check password
-            user = result.rows[0]
-            hash = user["password_hash"]
-
-            # Hash matches?
-            if check_password_hash(hash, password):
-                # Yes, so save info in the session
-                session["user_id"]   = user["id"]
-                session["user_name"] = user["name"]
-                session["logged_in"] = True
-
-                # And head back to the home page
-                flash("Login successful", "success")
-                return redirect("/")
-
-        # Either username not found, or password was wrong
-        flash("Invalid credentials", "error")
+    if not username or not password:
+        flash("Username and password are required", "error")
         return redirect("/login")
 
+    with connect_db() as client:
+        sql = "SELECT * FROM USERS WHERE username = ?"
+        result = client.execute(sql, [username])
+        print("DB result rows:", result.rows)
+
+        if result.rows:
+            user = result.rows[0]
+            print("Stored hash:", user["password_hash"])
+            if check_password_hash(user["password_hash"], password):
+                # Save user info in session
+                session["user_id"] = user["id"]
+                session["user_name"] = user.get("name", "")
+                session["logged_in"] = True
+
+                flash("Login successful", "success")
+                return redirect("/")
+            else:
+                print("Password mismatch!")
+        else:
+            print("Username not found in DB")
+
+    flash("Invalid username or password", "error")
+    return redirect("/login")
 
 #-----------------------------------------------------------
-# Route for processing a user logout
+# Logout route
 #-----------------------------------------------------------
 @app.get("/logout")
 def logout():
-    # Clear the details from the session
-    session.pop("user_id", None)
-    session.pop("user_name", None)
-    session.pop("logged_in", None)
-
-    # And head back to the home page
+    session.clear()
     flash("Logged out successfully", "success")
     return redirect("/")
-
