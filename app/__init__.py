@@ -60,11 +60,11 @@ def add_edit_a_vehicle():
 
 
 #-----------------------------------------------------------
-# Maintenance info page
+# Add a log page
 #-----------------------------------------------------------
-@app.get("/maintenance.info")
-def maintenance_info():
-    return render_template("pages/maintenance info.jinja")
+@app.get("/add.log")
+def add_log():
+    return render_template("pages/add.log.jinja")
 
 
 #-----------------------------------------------------------
@@ -82,24 +82,47 @@ def show_all_details():
 #-----------------------------------------------------------
 # Add a maintenance log
 #-----------------------------------------------------------
+from datetime import datetime
+
 @app.post("/add")
 @login_required
 def add_a_log():
-    vehicle_id  = html.escape(request.form.get("vehicle_id") or "")
-    action_taken = html.escape(request.form.get("action_taken") or "")
-    details   = html.escape(request.form.get("details") or "")
-    odometer_kms = request.form.get("odometer_kms") or 0
+    vehicle_id_raw   = request.form.get("vehicle_id") or "0"
+    action_taken     = html.escape(request.form.get("action_taken") or "")
+    details          = html.escape(request.form.get("details") or "")
+    odometer_kms_raw = request.form.get("odometer_kms") or "0"
+    date_str         = request.form.get("date") or ""  # <-- new
 
+    # Convert numeric fields
+    try:
+        vehicle_id = int(vehicle_id_raw)
+    except ValueError:
+        vehicle_id = 0
+
+    try:
+        odometer_kms = int(odometer_kms_raw)
+    except ValueError:
+        odometer_kms = 0
+
+    # Convert user-entered date to timestamp
+    try:
+        date_obj = datetime.strptime(date_str, "%Y-%m-%d")  # parse from form
+        date_ts = int(date_obj.timestamp())
+    except ValueError:
+        date_ts = int(datetime.now().timestamp())  # fallback to now
+
+    # Insert into database
     with connect_db() as client:
         sql = """
         INSERT INTO INFO (vehicle_id, action_taken, details, odometer_kms, date)
         VALUES (?, ?, ?, ?, ?)
         """
-        params = [vehicle_id, action_taken, details, odometer_kms, init_datetime]
+        params = [vehicle_id, action_taken, details, odometer_kms, date_ts]
         client.execute(sql, params)
 
     flash(f"Maintenance log for vehicle {vehicle_id} added", "success")
-    return redirect("/") 
+    return redirect("/")
+
 
 
 #-----------------------------------------------------------

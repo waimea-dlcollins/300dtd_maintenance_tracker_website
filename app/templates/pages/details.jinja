@@ -7,21 +7,20 @@
 
 
 {% block title %}
-
-    Details of vehicle
+add log
 
 {% endblock %}
 
 
 {% block content %}
 
-    <h1>Details</h1>
+    <h1>add log</h1>
 
 
     <article>
 
         <ul>
-            {% for thing in things %}
+            {% for details in INFO %}
 
                 <li>
                     <a href="/details/{{ vehicle.id }}">
@@ -40,31 +39,46 @@
     </article>
 
 
-    {# Only show form if user is logged in #}
+    
     {% if session.user_id %}
 
         <article>
 
-            <h3>Add a New Vehicle...</h3>
+            <h3>add details for a log about a vehicle</h3>
 
             <form action="/add" method="POST">
 
                 <input
                     type="text"
-                    name="name"
-                    placeholder="Name of vehicle"
+                    name="action_taken"
+                    placeholder="Details about what happened"
+                    required
+                >
+
+                   <input
+                    type="text"
+                    name="date"
+                    min="0"
+                    placeholder="Date"
+                    required
+                >
+
+                  <input
+                    type="number"
+                    name="odometer_kms"
+                    min="0"
+                    placeholder="Odometer (kms)"
                     required
                 >
 
                 <input
-                    type="number"
-                    name="year"
-                    min="0"
-                    placeholder="Year of vehicle"
-                    required
+                    type="text"
+                    name="further info"
+                    placeholder="Further information"
+                    
                 >
 
-                <button>Add details</button>
+                <button>Add log details</button>
 
             </form>
 
