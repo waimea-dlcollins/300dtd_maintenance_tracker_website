@@ -1,0 +1,53 @@
+{% extends 'pages/base.jinja' %}
+{% block title %}
+    Add a Vehicle
+{% endblock %}
+
+{% block content %}
+
+<section id="add_vehicle">
+    <h1>{{vehicle.make}} {{vehicle.model}} ({{vehicle.year}})</h1>
+
+    <p><strong>Year:</strong> {{vehicle.year}}</p>
+
+    {% if vehicle %}
+  {{ vehicle.make }} {{ vehicle.model }} ({{ vehicle.year }})
+{% else %}
+  No vehicle data provided.
+{% endif %}
+
+
+    <article>
+        <h2>Add a vehicle</h2>
+
+        <form action="/log" method="POST">
+
+        
+            <input
+                type="text"
+                name="make"
+                placeholder="vehicle make"
+                required
+            >
+        
+
+            <input
+                type="text"
+                name="model"
+                placeholder="vehicle model"
+            >
+
+            <input 
+                type="int"
+                name="year"
+                placeholder="vehicle year "
+            >
+
+            <button>Add Log</button>
+
+        </form>
+
+    </article>
+</section>
+
+{% endblock %}

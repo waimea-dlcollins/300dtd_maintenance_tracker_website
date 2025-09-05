@@ -46,15 +46,12 @@
                 {% endif %}
 
                 <li><a href="/">Home</a></li>
-                <li><a href="/details">details</a></li>
                 <li><a href="/about">About</a></li>
-                <li><a href="/vehicle.list">vehicle list</a></li>
-                <li><a href="/add.edit.a.vehicle">add/edit a vehicle</a></li>
-                <li><a href="/add.log">add a log</a></li>
 
 
                 {% if session.user_id %}
 
+                    <li><a href="/add">Add Vehicle</a></li>
                     <li><a href="/logout">Logout</a></li>
 
                 {% else %}

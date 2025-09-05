@@ -1,69 +1,26 @@
-
-
 {% extends 'pages/base.jinja' %}
 
-
 {% block title %}
-
-    vehicle list 
-
+    Vehicle List
 {% endblock %}
-
 
 {% block content %}
 
-    <section id="vehicle list">
+<section id="vehicle_list">
+    <h1>Your Vehicles</h1>
 
-    <h1>Current vehicle list</h1>
+    {% if vehicles %}
+        
+        {% for vehicle in vehicles %}
+            <a role="button" href="/vehicle/{{vehicle.id}}">
+                <strong>{{ vehicle.make }} {{ vehicle.model }}</strong>
+                ({{ vehicle.year }})
+            </a>          
+        {% endfor %}
+    {% else %}
+        <p>You have no vehicles added yet.</p>
+    {% endif %}
 
-<form action="/current.vehicles" method="POST">
+</section>
 
-          <h3>vehicle 1</h3>
-            <input
-                type="text"
-                name=""
-                placeholder=""
-                required
-            >
-            <h3>vehicle 2</h3>
-            <input
-                type="text"
-                name=""
-                placeholder=""
-                required
-            >
-            <h3>vehicle 3</h3>
-              <input
-                type="text"
-                name=""
-                placeholder=""
-                required
-            >
-            <h3>vehicle 4</h3>
-            <input
-                type="text"
-                name=""
-                placeholder=""
-                required
-            >
-            <h3>vehicle 5</h3>
-              <input
-                type="text"
-                name=""
-                placeholder=""
-                required
-            >
-            <h3>vehicle 6</h3>
-
-            <input
-                type="text"
-                name=""
-                placeholder=""
-                required
-            >
-
-            <button>add vehicle</button>
-
-        </form>
 {% endblock %}
-

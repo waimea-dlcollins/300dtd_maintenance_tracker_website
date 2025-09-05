@@ -14,7 +14,7 @@ from app.helpers.db      import connect_db
 from app.helpers.errors  import init_error, not_found_error
 from app.helpers.logging import init_logging
 from app.helpers.auth    import login_required
-from app.helpers.time    import init_datetime, utc_timestamp, utc_timestamp_now
+from app.helpers.dates   import init_datetime, utc_datetime_str, utc_date_str, utc_time_str
 
 # Create the app
 app = Flask(__name__)
@@ -32,7 +32,90 @@ init_datetime(app)
 #-----------------------------------------------------------
 @app.get("/")
 def index():
-    return render_template("pages/home.jinja")
+    user_id = session.get("user_id")
+
+    with connect_db() as client:
+        sql = """
+            SELECT id, make, model, year
+            FROM VEHICLES
+            WHERE owner = ?
+            ORDER BY id ASC
+        """
+        result = client.execute(sql, [user_id])
+        vehicles = result.rows
+
+        return render_template("pages/vehicle.list.jinja", vehicles=vehicles)
+
+
+
+#-----------------------------------------------------------
+# Vehicle page
+#-----------------------------------------------------------
+@app.get("/vehicle/<int:id>")
+def show_vehicle(id):
+    user_id = session["user_id"]
+
+    with connect_db() as client:
+        sql = """
+            SELECT id, make, model, year
+            FROM VEHICLES
+            WHERE owner = ? AND id = ?
+        """
+        result = client.execute(sql, [user_id, id])
+        
+        if result.rows:
+            vehicle = result.rows[0]
+
+            sql = """
+                SELECT action_taken, details, date, odometer
+                FROM LOGS
+                WHERE vehicle_id = ?
+            """
+            result = client.execute(sql, [id])
+            logs = result.rows
+
+    return render_template("pages/vehicle.jinja", vehicle=vehicle, logs=logs)
+
+
+#-----------------------------------------------------------
+# Add a log page
+#-----------------------------------------------------------
+@app.post("/log")
+def add_log():
+    with connect_db() as client:
+        vehicle_id = request.form.get("vehicle_id")
+        action_taken = request.form.get("action_taken")
+        details = request.form.get("details")
+        odometer = request.form.get("odometer")
+
+
+        sql = "INSERT INTO LOGS (vehicle_id, action_taken, details, odometer) VALUES (?, ?, ?, ?)"
+        client.execute(sql, [vehicle_id, action_taken, details, odometer])
+
+        return redirect(f"/vehicle/{vehicle_id}")
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #-----------------------------------------------------------
@@ -43,32 +126,34 @@ def about():
     return render_template("pages/about.jinja")
 
 
-#-----------------------------------------------------------
-# Vehicle list page
-#-----------------------------------------------------------
-@app.get("/vehicle.list/")
-def vehicle_list():
-    return render_template("pages/vehicle.list.jinja")
 
 
 #-----------------------------------------------------------
 # Add/Edit a vehicle
 #-----------------------------------------------------------
-@app.get("/add.edit.a.vehicle")
-def add_edit_a_vehicle():
-    return render_template("pages/add.edit.a.vehicle.jinja")
+@app.get("/add")
+@login_required
+def add_a_vehicle():
+    
+  make = request.form.get("make")
+  model = request.form.get("model")
+  year = request.form.get("year")
+
+
+  with connect_db() as client:
+    sql = """
+    INSERT INTO VEHICLES (make, model, year)
+        VALUES (?, ?, ?)
+        """
+    params = [make, model, year]
+    client.execute(sql, params)
+
+    flash(f"vehicle {make} {model} added", "success")
+    return render_template("pages/add.a.vehicle.jinja")
 
 
 #-----------------------------------------------------------
-# Add a log page
-#-----------------------------------------------------------
-@app.get("/add.log")
-def add_log():
-    return render_template("pages/add.log.jinja")
-
-
-#-----------------------------------------------------------
-# Show all maintenance logs
+# Show all maintenance logs         
 #-----------------------------------------------------------
 @app.get("/details/")
 def show_all_details():
@@ -91,9 +176,9 @@ def add_a_log():
     action_taken     = html.escape(request.form.get("action_taken") or "")
     details          = html.escape(request.form.get("details") or "")
     odometer_kms_raw = request.form.get("odometer_kms") or "0"
-    date_str         = request.form.get("date") or ""  # <-- new
+    date_str         = request.form.get("date") or "" 
 
-    # Convert numeric fields
+   
     try:
         vehicle_id = int(vehicle_id_raw)
     except ValueError:
@@ -104,14 +189,14 @@ def add_a_log():
     except ValueError:
         odometer_kms = 0
 
-    # Convert user-entered date to timestamp
+   
     try:
-        date_obj = datetime.strptime(date_str, "%Y-%m-%d")  # parse from form
+        date_obj = datetime.strptime(date_str, "%Y-%m-%d")  
         date_ts = int(date_obj.timestamp())
     except ValueError:
-        date_ts = int(datetime.now().timestamp())  # fallback to now
+        date_ts = int(datetime.now().timestamp())  
 
-    # Insert into database
+   
     with connect_db() as client:
         sql = """
         INSERT INTO INFO (vehicle_id, action_taken, details, odometer_kms, date)
@@ -142,6 +227,30 @@ def delete_a_log(id):
     flash("Maintenance log deleted", "success")
     return redirect("/")
 
+#-----------------------------------------------------------
+#add a vehicle
+#-----------------------------------------------------------
+@app.post("/add.a.vehicle")
+@login_required
+def add_edit_vehicle():
+    model = request.form.get("model")
+    make = request.form.get("make")
+    year = request.form.get("year")
+
+    
+    try:
+        year = int(year)
+    except (TypeError, ValueError):
+        year = None
+
+   
+    with connect_db() as client:
+        sql = "INSERT INTO VEHICLES (model, make, year) VALUES (?, ?, ?)"
+        client.execute(sql, model, make, year)
+
+    flash("Vehicle added successfully", "success")
+    return redirect("/vehicle.list/")
+
 
 #-----------------------------------------------------------
 # Registration page
@@ -167,8 +276,8 @@ def add_user():
     with connect_db() as client:
         sql = "SELECT 1 FROM USERS WHERE username = ?"
         result = client.execute(sql, [username])
-        rows = result.fetchall()
-        if rows:
+        users = result.rows
+        if users:
             flash("Username already exists", "error")
             return redirect("/register")
 
@@ -203,13 +312,13 @@ def login_user():
     with connect_db() as client:
         sql = "SELECT * FROM USERS WHERE username = ?"
         result = client.execute(sql, [username])
-        rows = result.fetchall()
+        rows = result.rows
 
         if rows:
             user = rows[0]
             if check_password_hash(user["password_hash"], password):
                 session["user_id"] = user["id"]
-                session["username"] = user["name"] if "name" in user.keys() else ""
+                session["username"] = user["name"]
                 session["logged_in"] = True
                 flash("Login successful", "success")
                 return redirect("/")

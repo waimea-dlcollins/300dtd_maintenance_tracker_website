@@ -1,45 +1,80 @@
-
+{#=====================================================
+  add log
+  - Form for adding a new vehicle
+=====================================================#}
 
 {% extends 'pages/base.jinja' %}
-
-
 {% block title %}
-add log 
-
-{% endblock %}
-
+  add log
+{% endblock %}  
 
 {% block content %}
 
-    <section id="add log ">
+    <h1>current logs </h1>
 
-    <h1>add log </h1>
-
-<article>
-
-        
-
-            <form action="/add" method="POST">
-
-                <input
-                    type="text"
-                    name="what happened"
-                    placeholder="What happened"
-                    required
-                >
+    <article>
+        <ul>
             
+            {% for id, vehicle_id, action_taken, details, date, odometer_kms in INFO %}
+                <li>
+                    <a href="/details/{{ vehicle_id }}">
+                        <strong>{{ vehicle_id }}</strong>
+                    </a>
+                    <br>
+                    Action: {{ action_taken }} <br>
+                    Details: {{ details }} <br>
+                    Date: {{ date }} <br>
+                    Odometer: {{ odometer_kms }} km
+                </li>
+            {% else %}
+                <li>No logs found</li>
+            {% endfor %}
+        </ul>
+    </article>
 
-                <input
-                    type="text"
-                    name="further infomation"
-                    placeholder="further infomation"
-                   
-                >
-
-                <button>Add log</button>
-
-            </form>
-
-        </article>
 {% endblock %}
 
+
+{% if session.user_id %}
+
+    <article>
+
+        <h1>add details for a log about a vehicle</h1>
+
+        <form action="/add" method="POST">
+
+            <input
+                type="text"
+                name="action_taken"
+                placeholder="Details about what happened"
+                required
+            >
+
+            <input
+                type="text"
+                name="date"
+                placeholder="Date (e.g. 2025-09-05)"
+                required
+            >
+
+            <input
+                type="number"
+                name="odometer_kms"
+                min="0"
+                placeholder="Odometer (kms)"
+                required
+            >
+
+            <input
+                type="text"
+                name="further_info"
+                placeholder="Further information"
+            >
+
+            <button>Add log details</button>
+
+        </form>
+
+    </article>
+
+{% endif %}

@@ -1,0 +1,64 @@
+{% extends 'pages/base.jinja' %}
+
+{% block title %}
+    Info for {{vehicle.name}}
+{% endblock %}
+
+{% block content %}
+
+<section id="vehicle_list">
+    <h1>{{vehicle.make}} {{vehicle.model}}</h1>
+
+    <p><strong>Year:</strong> {{vehicle.year}}</p>
+
+    {% if logs %}
+        
+        <ul>
+        {% for log in logs %}
+            <li><strong>{{ log.date }}</strong>
+            {{ log.action_taken }} - {{ log.details }} ({{ log.odometer }} km)</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>You have no logs added yet.</p>
+    {% endif %}
+
+    <article>
+        <h2>Add a log for this vehicle</h2>
+
+        <form action="/log" method="POST">
+
+            <input
+                type="hidden"
+                name="vehicle_id"
+                value="{{ vehicle.id }}"
+            >
+        
+            <input
+                type="text"
+                name="action_taken"
+                placeholder="Action taken"
+                required
+            >
+        
+
+            <input
+                type="text"
+                name="details"
+                placeholder="Additional details"
+            >
+
+            <input 
+                type="number"
+                name="odometer"
+                placeholder="Odometer (in kms)"
+            >
+
+            <button>Add Log</button>
+
+        </form>
+
+    </article>
+</section>
+
+{% endblock %}
