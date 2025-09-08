@@ -30,11 +30,11 @@ init_datetime(app)
 #-----------------------------------------------------------
 # Home page
 #-----------------------------------------------------------
-@app.get("/")
+@app.post("/")
 def index():
     user_id = session.get("user_id")
 
-    with connect_db() as client:
+    with connect_db() as client:    
         sql = """
             SELECT id, make, model, year
             FROM VEHICLES
@@ -44,7 +44,7 @@ def index():
         result = client.execute(sql, [user_id])
         vehicles = result.rows
 
-        return render_template("pages/vehicle.list.jinja", vehicles=vehicles)
+        return render_template("pages/.jinja", vehicles=vehicles)
 
 
 
@@ -129,27 +129,35 @@ def about():
 
 
 #-----------------------------------------------------------
-# Add/Edit a vehicle
+# Add a vehicle
 #-----------------------------------------------------------
-@app.get("/add")
+
+
+@app.get("/add-vehicle")
 @login_required
-def add_a_vehicle():
-    
-  make = request.form.get("make")
-  model = request.form.get("model")
-  year = request.form.get("year")
-
-
-  with connect_db() as client:
-    sql = """
-    INSERT INTO VEHICLES (make, model, year)
-        VALUES (?, ?, ?)
-        """
-    params = [make, model, year]
-    client.execute(sql, params)
-
-    flash(f"vehicle {make} {model} added", "success")
+def add_vehicle_form():
     return render_template("pages/add.a.vehicle.jinja")
+
+
+
+@app.post("/add-vehicle")
+@login_required
+def add_vehicle():
+    make = request.form.get("make") or ""
+    model = request.form.get("model") or ""
+    year = request.form.get("year") or ""
+
+    if not make or not model:
+        flash("Make and model are required", "error")
+        return redirect("/add-vehicle")
+
+    with connect_db() as client:
+        sql = "INSERT INTO VEHICLES (make, model, year) VALUES (?, ?, ?)"
+        params = [make, model, year]
+        client.execute(sql, params)
+
+    flash(f"Vehicle {make} {model} added", "success")
+    return redirect("/")
 
 
 #-----------------------------------------------------------
@@ -227,29 +235,6 @@ def delete_a_log(id):
     flash("Maintenance log deleted", "success")
     return redirect("/")
 
-#-----------------------------------------------------------
-#add a vehicle
-#-----------------------------------------------------------
-@app.post("/add.a.vehicle")
-@login_required
-def add_edit_vehicle():
-    model = request.form.get("model")
-    make = request.form.get("make")
-    year = request.form.get("year")
-
-    
-    try:
-        year = int(year)
-    except (TypeError, ValueError):
-        year = None
-
-   
-    with connect_db() as client:
-        sql = "INSERT INTO VEHICLES (model, make, year) VALUES (?, ?, ?)"
-        client.execute(sql, model, make, year)
-
-    flash("Vehicle added successfully", "success")
-    return redirect("/vehicle.list/")
 
 
 #-----------------------------------------------------------
