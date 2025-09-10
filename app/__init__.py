@@ -30,8 +30,9 @@ init_datetime(app)
 #-----------------------------------------------------------
 # Home page
 #-----------------------------------------------------------
-@app.post("/")
-def index():
+@app.get("/")
+@login_required
+def home():
     user_id = session.get("user_id")
 
     with connect_db() as client:    
@@ -44,7 +45,7 @@ def index():
         result = client.execute(sql, [user_id])
         vehicles = result.rows
 
-        return render_template("pages/.jinja", vehicles=vehicles)
+    return render_template("pages/index.jinja", vehicles=vehicles)
 
 
 
@@ -95,26 +96,6 @@ def add_log():
         return redirect(f"/vehicle/{vehicle_id}")
     
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
