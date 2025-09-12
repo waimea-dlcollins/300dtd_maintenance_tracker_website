@@ -31,7 +31,6 @@ init_datetime(app)
 # Home page
 #-----------------------------------------------------------
 @app.get("/")
-@login_required
 def home():
     user_id = session.get("user_id")
 
@@ -45,8 +44,8 @@ def home():
         result = client.execute(sql, [user_id])
         vehicles = result.rows
 
-    return render_template("pages/index.jinja", vehicles=vehicles)
-
+    return render_template("pages/vehicle.list.jinja", vehicles=vehicles)
+    
 
 
 #-----------------------------------------------------------
@@ -89,14 +88,11 @@ def add_log():
         details = request.form.get("details")
         odometer = request.form.get("odometer")
 
-
         sql = "INSERT INTO LOGS (vehicle_id, action_taken, details, odometer) VALUES (?, ?, ?, ?)"
         client.execute(sql, [vehicle_id, action_taken, details, odometer])
 
         return redirect(f"/vehicle/{vehicle_id}")
     
-    
-
 
 
 #-----------------------------------------------------------
@@ -107,18 +103,13 @@ def about():
     return render_template("pages/about.jinja")
 
 
-
-
 #-----------------------------------------------------------
 # Add a vehicle
 #-----------------------------------------------------------
-
-
 @app.get("/add-vehicle")
 @login_required
 def add_vehicle_form():
     return render_template("pages/add.a.vehicle.jinja")
-
 
 
 @app.post("/add-vehicle")
@@ -136,7 +127,6 @@ def add_vehicle():
         sql = "INSERT INTO VEHICLES (make, model, year) VALUES (?, ?, ?)"
         params = [make, model, year]
         client.execute(sql, params)
-
     flash(f"Vehicle {make} {model} added", "success")
     return redirect("/")
 
@@ -158,7 +148,7 @@ def show_all_details():
 #-----------------------------------------------------------
 from datetime import datetime
 
-@app.post("/add")
+@app.get("/add")
 @login_required
 def add_a_log():
     vehicle_id_raw   = request.form.get("vehicle_id") or "0"
@@ -167,7 +157,6 @@ def add_a_log():
     odometer_kms_raw = request.form.get("odometer_kms") or "0"
     date_str         = request.form.get("date") or "" 
 
-   
     try:
         vehicle_id = int(vehicle_id_raw)
     except ValueError:
@@ -178,14 +167,12 @@ def add_a_log():
     except ValueError:
         odometer_kms = 0
 
-   
     try:
         date_obj = datetime.strptime(date_str, "%Y-%m-%d")  
         date_ts = int(date_obj.timestamp())
     except ValueError:
         date_ts = int(datetime.now().timestamp())  
 
-   
     with connect_db() as client:
         sql = """
         INSERT INTO INFO (vehicle_id, action_taken, details, odometer_kms, date)
@@ -198,11 +185,10 @@ def add_a_log():
     return redirect("/")
 
 
-
 #-----------------------------------------------------------
 # Delete a maintenance log
 #-----------------------------------------------------------
-@app.get("/delete/<int:id>")
+@app.post("/delete/<int:id>")
 @login_required
 def delete_a_log(id):
     user_id = session["user_id"]
@@ -215,7 +201,6 @@ def delete_a_log(id):
 
     flash("Maintenance log deleted", "success")
     return redirect("/")
-
 
 
 #-----------------------------------------------------------

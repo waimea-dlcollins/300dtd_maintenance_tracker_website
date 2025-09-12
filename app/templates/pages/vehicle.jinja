@@ -1,15 +1,15 @@
 {% extends 'pages/base.jinja' %}
 
 {% block title %}
-    Info for {{vehicle.name}}
+    Info for {{VEHICLES.name}}
 {% endblock %}
 
 {% block content %}
 
 <section id="vehicle_list">
-    <h1>{{vehicle.make}} {{vehicle.model}}</h1>
+    <h1>{{VEHICLES.make}} {{VEHICLES.model}}</h1>
 
-    <p><strong>Year:</strong> {{vehicle.year}}</p>
+    <p><strong>Year:</strong> {{VEHICLES.year}}</p>
 
     {% if logs %}
         

@@ -12,7 +12,7 @@ Develop a bare-bones, working web application that provides the key functionalit
 
 Replace this text with notes regarding the DB schema.
 
-![SCREENSHOT OF DB SCHEMA](screenshots/example.png)
+![SCREENSHOT OF DB SCHEMA](docs/screenshot_of_database.png)
 
 
 ---
@@ -26,16 +26,14 @@ The key functionality of the web app was implemented:
 
 ---
 
-## Testing FEATURE NAME HERE
-
-Replace this text with notes about what you are testing, how you tested it, and the outcome of the testing
+## Testing displaying user vehicles 
+when users add vehicles they are displayed on the home screen and shown to them.
 
 **PLACE SCREENSHOTS AND/OR ANIMATED GIFS OF THE TESTING HERE**
-
+![alt text](image.png)
 ### Changes / Improvements
 
-Replace this text with notes any improvements you made as a result of the testing.
-
+i tested the display of the text to make sure it was shwoing the right text and added a system so that they can add logs to vehicles they have available to them.
 **PLACE SCREENSHOTS AND/OR ANIMATED GIFS OF THE IMPROVED SYSTEM HERE**
 
 
