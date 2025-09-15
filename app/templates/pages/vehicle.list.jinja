@@ -9,16 +9,17 @@
 <section id="vehicle_list">
     <h1>Your Vehicles</h1>
 
-    {% if vehicles %}
-        {% for vehicle in vehicles %}
-            <a role="button" href="/vehicle/{{ vehicle.id }}">
-                <strong>{{ vehicle.make }} {{ vehicle.model }}</strong>
-                ({{ vehicle.year }})
-            </a>
-        {% endfor %}
-    {% else %}
-        <p>You have no vehicles added yet.</p>
-    {% endif %}
+   {% if vehicles %}
+    {% for vehicle in vehicles %}
+        <a role="button" href="/vehicle/{{ vehicle.id }}">
+            <strong>{{ vehicle.make }} {{ vehicle.model }}</strong>
+            ({{ vehicle.year }})
+        </a>
+    {% endfor %}
+{% else %}
+    <p>You have no vehicles added yet.</p>
+{% endif %}
+
 
 </section>
 

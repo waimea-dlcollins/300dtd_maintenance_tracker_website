@@ -35,16 +35,15 @@ when users add vehicles they are displayed on the home screen and shown to them.
 
 i tested the display of the text to make sure it was shwoing the right text and added a system so that they can add logs to vehicles they have available to them.
 **PLACE SCREENSHOTS AND/OR ANIMATED GIFS OF THE IMPROVED SYSTEM HERE**
-
-
+![alt text](image-1.png)
+now users can see there current vehicles in a button format
 ---
 
-## Testing FEATURE NAME HERE
+## displaying of logs 
 
-Replace this text with notes about what you are testing, how you tested it, and the outcome of the testing
-
+i was testing the displaying of logs and the addding of them, making it look presentable, and wanting to add the ability to delete logs 
 **PLACE SCREENSHOTS AND/OR ANIMATED GIFS OF THE TESTING HERE**
-
+![alt text](<Screenshot 2025-09-16 092345.png>)
 ### Changes / Improvements
 
 Replace this text with notes any improvements you made as a result of the testing.

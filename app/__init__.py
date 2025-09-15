@@ -111,24 +111,26 @@ def about():
 def add_vehicle_form():
     return render_template("pages/add.a.vehicle.jinja")
 
-
 @app.post("/add-vehicle")
 @login_required
 def add_vehicle():
     make = request.form.get("make") or ""
     model = request.form.get("model") or ""
     year = request.form.get("year") or ""
+    user_id = session.get("user_id")  
 
     if not make or not model:
         flash("Make and model are required", "error")
         return redirect("/add-vehicle")
 
     with connect_db() as client:
-        sql = "INSERT INTO VEHICLES (make, model, year) VALUES (?, ?, ?)"
-        params = [make, model, year]
+        sql = "INSERT INTO VEHICLES (make, model, year, owner) VALUES (?, ?, ?, ?)"
+        params = [make, model, year, user_id] 
         client.execute(sql, params)
+
     flash(f"Vehicle {make} {model} added", "success")
     return redirect("/")
+
 
 
 #-----------------------------------------------------------
@@ -175,7 +177,7 @@ def add_a_log():
 
     with connect_db() as client:
         sql = """
-        INSERT INTO INFO (vehicle_id, action_taken, details, odometer_kms, date)
+        INSERT INTO LOGS (vehicle_id, action_taken, details, odometer_kms, date)
         VALUES (?, ?, ?, ?, ?)
         """
         params = [vehicle_id, action_taken, details, odometer_kms, date_ts]
@@ -188,20 +190,31 @@ def add_a_log():
 #-----------------------------------------------------------
 # Delete a maintenance log
 #-----------------------------------------------------------
-@app.post("/delete/<int:id>")
+@app.get("/delete/log/<int:id>")
 @login_required
-def delete_a_log(id):
+def confirm_delete_log(id):
     user_id = session["user_id"]
     with connect_db() as client:
-        sql = """
-        DELETE FROM INFO
-        WHERE id = ? AND vehicle_id IN (SELECT id FROM VEHICLES WHERE user_id = ?)
-        """
+        sql = "SELECT * FROM LOGS WHERE id = ? AND vehicle_id IN (SELECT id FROM VEHICLES WHERE owner = ?)"
+        result = client.execute(sql, [id, user_id])
+        log = result.rows[0] if result.rows else None
+
+    if not log:
+        flash("Log not found or you do not have permission to delete it", "error")
+        return redirect("/")
+
+    return render_template("pages/delete.log.jinja", log=log)
+
+
+@app.post("/delete/log/<int:id>")
+@login_required
+def delete_log(id):
+    user_id = session["user_id"]
+    with connect_db() as client:
+        sql = "DELETE FROM LOGS WHERE id = ? AND vehicle_id IN (SELECT id FROM VEHICLES WHERE owner = ?)"
         client.execute(sql, [id, user_id])
-
-    flash("Maintenance log deleted", "success")
-    return redirect("/")
-
+    flash("Log deleted", "success")
+    return redirect("/") 
 
 #-----------------------------------------------------------
 # Registration page
