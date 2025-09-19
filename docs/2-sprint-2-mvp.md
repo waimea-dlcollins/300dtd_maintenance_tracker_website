@@ -39,32 +39,29 @@ i tested the display of the text to make sure it was shwoing the right text and 
 now users can see there current vehicles in a button format
 ---
 
-## displaying of logs 
+## displaying of logs/deletion
 
 i was testing the displaying of logs and the addding of them, making it look presentable, and wanting to add the ability to delete logs 
 **PLACE SCREENSHOTS AND/OR ANIMATED GIFS OF THE TESTING HERE**
 ![alt text](<Screenshot 2025-09-16 092345.png>)
 ### Changes / Improvements
 
-Replace this text with notes any improvements you made as a result of the testing.
-
+made the user be able to delete logs for their current vehicle that they own 
 **PLACE SCREENSHOTS AND/OR ANIMATED GIFS OF THE IMPROVED SYSTEM HERE**
-
+![alt text](image-2.png)
 
 ---
 
-## Testing FEATURE NAME HERE
+## Testing deletion of vehicles 
 
-Replace this text with notes about what you are testing, how you tested it, and the outcome of the testing
-
+i am testing the ability of users on the mainteance tracker website to be able to delete vehicles from thier fleet if they own it 
 **PLACE SCREENSHOTS AND/OR ANIMATED GIFS OF THE TESTING HERE**
-
+![alt text](image-3.png)
 ### Changes / Improvements
 
-Replace this text with notes any improvements you made as a result of the testing.
-
+i made it able for someone to be able to delete their vehicle considering that they are the owner of the vehicle and they are logged in to the website
 **PLACE SCREENSHOTS AND/OR ANIMATED GIFS OF THE IMPROVED SYSTEM HERE**
-
+![alt text](image-4.png)
 
 ---
 

@@ -1,20 +1,21 @@
 {% extends 'pages/base.jinja' %}
 
-{% block title %}
-   Confirm Delete Log
-{% endblock %}
+
+{% block title %}Confirm Delete Log{% endblock %}
+
 
 {% block content %}
-<h1>Confirm Delete</h1>
-<p>Are you sure you want to delete this log?</p>
+<h1>Deletion of log</h1>
 <ul>
-    <li>Action: {{ log.action_taken }}</li>
-    <li>Details: {{ log.details }}</li>
-    <li>Date: {{ log.date }}</li>
-    <li>Odometer: {{ log.odometer }}</li>
+    <li>- Action: {{ log.action_taken }}</li>
+    <li>- Details: {{ log.details }}</li>
+    <li>- Date: {{ log.date }}</li>
+    <li>- Odometer: {{ log.odometer }}</li>
 </ul>
-<form action="/delete/log/{{ log.id }}" method="post">
-    <button type="submit">Yes, Delete Log</button>
-    <a href="{{ url_for('show_vehicle', id=log.vehicle_id) }}">Cancel</a>
+<form action="{{ url_for('delete_log', id=log.id) }}" method="post">
+    <button>Yes, Delete Log</button>
+
+    
+    
 </form>
 {% endblock %}

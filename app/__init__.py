@@ -202,7 +202,7 @@ def confirm_delete_log(id):
     if not log:
         flash("Log not found or you do not have permission to delete it", "error")
         return redirect("/")
-
+    
     return render_template("pages/delete.log.jinja", log=log)
 
 
@@ -214,7 +214,37 @@ def delete_log(id):
         sql = "DELETE FROM LOGS WHERE id = ? AND vehicle_id IN (SELECT id FROM VEHICLES WHERE owner = ?)"
         client.execute(sql, [id, user_id])
     flash("Log deleted", "success")
-    return redirect("/") 
+    return redirect("/")
+
+
+
+#-----------------------------------------------------------
+# Delete a vehicle
+#-----------------------------------------------------------
+@app.get("/delete/vehicle/<int:id>")
+@login_required
+def confirm_delete_vehicle(id):
+    user_id = session["user_id"]
+    with connect_db() as client:
+        sql = "SELECT * FROM VEHICLES WHERE id = ? AND owner = ?"
+        result = client.execute(sql, [id, user_id])
+        vehicle = result.rows[0] if result.rows else None
+
+    if not vehicle:
+        flash("Vehicle not found or you do not have permission to delete it", "error")
+        return redirect("/")
+
+    return render_template("pages/delete.vehicle.jinja", vehicle=vehicle)
+
+@app.post("/delete/vehicle/<int:id>")
+@login_required
+def delete_vehicle(id):
+    user_id = session["user_id"]
+    with connect_db() as client:
+        sql = "DELETE FROM VEHICLES WHERE id = ? AND owner = ?"
+        client.execute(sql, [id, user_id])
+    flash("Vehicle deleted", "success")
+    return redirect("/")
 
 #-----------------------------------------------------------
 # Registration page

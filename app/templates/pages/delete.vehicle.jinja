@@ -1,0 +1,20 @@
+{% extends 'pages/base.jinja' %}
+
+{% block title %}
+    Confirm Delete Vehicle
+{% endblock %}
+
+{% block content %}
+    <h2>Confirm Vehicle Deletion</h2>
+
+    <p>Are you sure you want to delete the vehicle:</p>
+    <ul>
+        <li><strong>Make:</strong> {{ vehicle.make }}</li>
+        <li><strong>Model:</strong> {{ vehicle.model }}</li>
+        <li><strong>Year:</strong> {{ vehicle.year }}</li>
+    </ul>
+
+    <form method="post" action="{{ url_for('delete_vehicle', id=vehicle.id) }}">
+        <button>Yes, Delete</button>
+    </form>
+{% endblock %}
