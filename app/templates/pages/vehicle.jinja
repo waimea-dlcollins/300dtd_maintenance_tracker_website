@@ -1,8 +1,5 @@
-{% extends 'pages/base.jinja' %}
 
-{% block title %}
-   Info for {{ vehicle.make }} {{ vehicle.model }}
-{% endblock %}
+{% extends 'pages/base.jinja' %}
 
 {% block content %}
 
@@ -11,11 +8,14 @@
     <p><strong>Year:</strong> {{vehicle.year}}</p>
 
     {% if logs %}
-        
         <ul>
         {% for log in logs %}
-            <li><strong>{{ log.date }}</strong>
-            {{ log.action_taken }} - {{ log.details }} ({{ log.odometer }} km)</li>
+            <li>
+                <strong>{{ log.date }}</strong> {{ log.action_taken }} - {{ log.details }} ({{ log.odometer }} km)
+                <form action="/delete-log" method="POST">
+                    <button>Delete</button>
+                </form>
+            </li>
         {% endfor %}
         </ul>
     {% else %}
@@ -27,36 +27,30 @@
 
         <form action="/log" method="POST">
 
-            <input
-                type="hidden"
-                name="vehicle_id"
-                value="{{ vehicle.id }}"
-            >
-        
-            <input
-                type="text"
-                name="action_taken"
-                placeholder="Action taken"
-                required
-            >
-        
 
-            <input
-                type="text"
-                name="details"
-                placeholder="Additional details"
+            <input type="hidden" 
+            name="vehicle_id" 
+            value="{{ vehicle.id }}"
             >
 
-            <input 
-                type="number"
-                name="odometer"
-                placeholder="Odometer (in kms)"
+            <input type="text" 
+            name="action_taken" 
+            placeholder="Action taken" required
+            >
+
+            <input type="text" 
+            name="details" 
+            placeholder="Additional details" required 
+            >
+
+            <input type="number" 
+            name="odometer" 
+            placeholder="Odometer (in kms)" required
             >
 
             <button>Add Log</button>
 
         </form>
-
     </article>
 </section>
 

@@ -190,7 +190,7 @@ def add_a_log():
 #-----------------------------------------------------------
 # Delete a maintenance log
 #-----------------------------------------------------------
-@app.get("/delete/log/<int:id>")
+@app.get("/delete/log")
 @login_required
 def confirm_delete_log(id):
     user_id = session["user_id"]
@@ -200,20 +200,20 @@ def confirm_delete_log(id):
         log = result.rows[0] if result.rows else None
 
     if not log:
-        flash("Log not found or you do not have permission to delete it", "error")
+        flash("Log not found or you do not have permission to delete it")
         return redirect("/")
     
     return render_template("pages/delete.log.jinja", log=log)
 
 
-@app.post("/delete/log/<int:id>")
+@app.post("/delete/log")
 @login_required
 def delete_log(id):
     user_id = session["user_id"]
     with connect_db() as client:
         sql = "DELETE FROM LOGS WHERE id = ? AND vehicle_id IN (SELECT id FROM VEHICLES WHERE owner = ?)"
         client.execute(sql, [id, user_id])
-    flash("Log deleted", "success")
+    flash("Log deleted")
     return redirect("/")
 
 
@@ -231,7 +231,7 @@ def confirm_delete_vehicle(id):
         vehicle = result.rows[0] if result.rows else None
 
     if not vehicle:
-        flash("Vehicle not found or you do not have permission to delete it", "error")
+        flash("Vehicle not found or you do not have permission to delete it")
         return redirect("/")
 
     return render_template("pages/delete.vehicle.jinja", vehicle=vehicle)
@@ -243,7 +243,7 @@ def delete_vehicle(id):
     with connect_db() as client:
         sql = "DELETE FROM VEHICLES WHERE id = ? AND owner = ?"
         client.execute(sql, [id, user_id])
-    flash("Vehicle deleted", "success")
+    flash("Vehicle deleted")
     return redirect("/")
 
 #-----------------------------------------------------------
