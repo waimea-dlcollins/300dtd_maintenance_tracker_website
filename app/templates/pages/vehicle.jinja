@@ -12,7 +12,7 @@
         {% for log in logs %}
             <li>
                 <strong>{{ log.date }}</strong> {{ log.action_taken }} - {{ log.details }} ({{ log.odometer }} km)
-                <form action="/delete-log" method="POST">
+                <form action="/log/{{ log.id }}" method="POST">
                     <button>Delete</button>
                 </form>
             </li>

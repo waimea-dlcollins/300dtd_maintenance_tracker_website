@@ -17,7 +17,7 @@
                     <strong>{{ vehicle.make }} {{ vehicle.model }}</strong>
                     ({{ vehicle.year }})
                 </a>
-                <form action="/delete-vehicle" method="POST">
+                <form action="/vehicle/{{ vehicle.id }}" method="POST">
                     <input type="hidden" name="vehicle.id" value="{{ vehicle.id }}">
                     <button>
                         Delete
