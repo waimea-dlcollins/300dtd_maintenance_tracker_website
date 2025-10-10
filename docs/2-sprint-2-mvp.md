@@ -65,33 +65,30 @@ i made it able for someone to be able to delete their vehicle considering that t
 
 ---
 
-## Testing FEATURE NAME HERE
+## adding vehicles 
 
-Replace this text with notes about what you are testing, how you tested it, and the outcome of the testing
-
+i am testing the users ability to add vehicles to thier fleet when they are logged in, and to display them at the home screen if the vehicles are theirs.
 **PLACE SCREENSHOTS AND/OR ANIMATED GIFS OF THE TESTING HERE**
-
+![alt text](vehicledisplay.png)![alt text](vehicledisplay2.png)
 ### Changes / Improvements
 
-Replace this text with notes any improvements you made as a result of the testing.
-
+made the user able to delete the vehicles, also adding bullet points next to the button dispalying the current vehicles the user owns. To improve the overall look of the website when people are scrolling throughout.
 **PLACE SCREENSHOTS AND/OR ANIMATED GIFS OF THE IMPROVED SYSTEM HERE**
-
+![alt text](vehicledisplay.png)![alt text](vehicledisplay2.png)
 
 ---
 
-## Testing FEATURE NAME HERE
+## Testing login and registration
 
-Replace this text with notes about what you are testing, how you tested it, and the outcome of the testing
-
+i am testing if the login and registration of the website is working how it needs to and doing things such as changing the header of the page to my speific website so the user knows that they are in the right place
 **PLACE SCREENSHOTS AND/OR ANIMATED GIFS OF THE TESTING HERE**
 
 ### Changes / Improvements
+![alt text](loginscreenshot.png)![alt text](registrationscreenshot.png)
 
-Replace this text with notes any improvements you made as a result of the testing.
-
+i changed the header (h1) of both the registration and login page to incorparte my name of the website "maintenance tracker" this will allow users to know that they are in the right place when they are attemtping to register or login in to the website to track there maintenance.
 **PLACE SCREENSHOTS AND/OR ANIMATED GIFS OF THE IMPROVED SYSTEM HERE**
-
+![alt text](loginscreenshot.png)![alt text](registrationscreenshot.png)
 
 ---
 

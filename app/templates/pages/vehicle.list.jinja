@@ -14,11 +14,10 @@
         {% for vehicle in vehicles %}
             <li>
                 <a role="button" href="/vehicle/{{ vehicle.id }}">
-                    <strong>{{ vehicle.make }} {{ vehicle.model }}</strong>
+                    <strong>{{ vehicle.make }} {{ vehicle.model }} - {{ vehicle.engine }} - {{ vehicle.transmission }} - {{ vehicle.fuel }}</strong>
                     ({{ vehicle.year }})
                 </a>
                 <form action="/vehicle/{{ vehicle.id }}" method="POST">
-                    <input type="hidden" name="vehicle.id" value="{{ vehicle.id }}">
                     <button>
                         Delete
                     </button>

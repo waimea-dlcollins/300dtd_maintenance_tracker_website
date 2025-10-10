@@ -36,7 +36,7 @@ def home():
 
     with connect_db() as client:    
         sql = """
-            SELECT id, make, model, year
+            SELECT id, make, model, year, engine, transmission, fuel
             FROM VEHICLES
             WHERE owner = ?
             ORDER BY id ASC
@@ -54,20 +54,17 @@ def home():
 @app.get("/vehicle/<int:id>")
 def show_vehicle(id):
     user_id = session["user_id"]
-
     with connect_db() as client:
         sql = """
-            SELECT id, make, model, year
+            SELECT id, make, model, year, engine, transmission, fuel
             FROM VEHICLES
             WHERE owner = ? AND id = ?
         """
         result = client.execute(sql, [user_id, id])
-        
         if result.rows:
             vehicle = result.rows[0]
-
             sql = """
-                SELECT action_taken, details, date, odometer
+                SELECT id, action_taken, details, date, odometer, cost, duration, category
                 FROM LOGS
                 WHERE vehicle_id = ?
             """
@@ -75,6 +72,8 @@ def show_vehicle(id):
             logs = result.rows
 
     return render_template("pages/vehicle.jinja", vehicle=vehicle, logs=logs)
+
+
 
 
 #-----------------------------------------------------------
@@ -87,13 +86,16 @@ def add_log():
         action_taken = request.form.get("action_taken")
         details = request.form.get("details")
         odometer = request.form.get("odometer")
+        cost = request.form.get("cost")
+        duration = request.form.get("duration")
+        category = request.form.get("category")
 
-        sql = "INSERT INTO LOGS (vehicle_id, action_taken, details, odometer) VALUES (?, ?, ?, ?)"
-        client.execute(sql, [vehicle_id, action_taken, details, odometer])
+        sql = "INSERT INTO LOGS (vehicle_id, action_taken, details, odometer, cost, duration, category) VALUES (?, ?, ?, ?, ?, ?, ?)"
+        client.execute(sql, [vehicle_id, action_taken, details, odometer, cost, duration, category])
 
         return redirect(f"/vehicle/{vehicle_id}")
     
-    
+    category
 
 
 #-----------------------------------------------------------
@@ -118,6 +120,9 @@ def add_vehicle():
     make = request.form.get("make") or ""
     model = request.form.get("model") or ""
     year = request.form.get("year") or ""
+    engine = request.form.get("engine") or ""
+    transmission = request.form.get("transmission") or ""
+    fuel = request.form.get("fuel") or ""
     user_id = session.get("user_id")  
 
     if not make or not model:
@@ -125,8 +130,8 @@ def add_vehicle():
         return redirect("/add-vehicle")
 
     with connect_db() as client:
-        sql = "INSERT INTO VEHICLES (make, model, year, owner) VALUES (?, ?, ?, ?)"
-        params = [make, model, year, user_id] 
+        sql = "INSERT INTO VEHICLES (make, model, year, owner, engine, transmission, fuel) VALUES (?, ?, ?, ?, ?, ?, ?)"
+        params = [make, model, year, user_id, engine, transmission, fuel] 
         client.execute(sql, params)
 
     flash(f"Vehicle {make} {model} added", "success")
@@ -159,6 +164,9 @@ def add_a_log():
     details          = html.escape(request.form.get("details") or "")
     odometer_kms_raw = request.form.get("odometer_kms") or "0"
     date_str         = request.form.get("date") or "" 
+    cost             = request.form.get("cost") or ""
+    duration         = request.form.get("duration") or ""
+    category         = request.form.get("category") or ""
 
     try:
         vehicle_id = int(vehicle_id_raw)
@@ -178,10 +186,10 @@ def add_a_log():
 
     with connect_db() as client:
         sql = """
-        INSERT INTO LOGS (vehicle_id, action_taken, details, odometer_kms, date)
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO LOGS (vehicle_id, action_taken, details, odometer_kms, date, cost, duration, category)
+        VALUES (?, ?, ?, ?, ?, ?)
         """
-        params = [vehicle_id, action_taken, details, odometer_kms, date_ts]
+        params = [vehicle_id, action_taken, details, odometer_kms, date_ts, cost, duration, category]
         client.execute(sql, params)
 
     flash(f"Maintenance log for vehicle {vehicle_id} added", "success")
@@ -215,9 +223,7 @@ def delete_log(id):
         sql = "DELETE FROM LOGS WHERE id = ? AND vehicle_id IN (SELECT id FROM VEHICLES WHERE owner = ?)"
         client.execute(sql, [id, user_id])
     flash("Log deleted")
-    return redirect("pages/vehicle.jinja")
-
-
+    return redirect("/")
 
 
 #-----------------------------------------------------------

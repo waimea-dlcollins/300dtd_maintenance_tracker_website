@@ -1,19 +1,17 @@
-
 {% extends 'pages/base.jinja' %}
 
 {% block content %}
-
 <section id="vehicle_list">
-    <h1>{{vehicle.make}} {{vehicle.model}}</h1>
-    <p><strong>Year:</strong> {{vehicle.year}}</p>
+    <h1>{{ vehicle.make }} {{ vehicle.model }} - {{vehicle.engine}} - {{vehicle.transmission}} - {{vehicle.fuel}}</h1>
+    <p><strong>Year:</strong> {{ vehicle.year }}</p>
 
     {% if logs %}
         <ul>
         {% for log in logs %}
             <li>
-                <strong>{{ log.date }}</strong> {{ log.action_taken }} - {{ log.details }} ({{ log.odometer }} km)
-                <form action="/log/{{ log.id }}" method="POST">
-                    <button>Delete</button>
+                <strong>{{ log.date }}</strong> {{ log.action_taken }} - {{ log.details }} - {{log.cost}} - {{log.duration}} - {{log.category}} ({{ log.odometer }} km)
+                <form action="{{ url_for('delete_log', id=log.id) }}" method="POST">
+                  <button>Delete</button>
                 </form>
             </li>
         {% endfor %}
@@ -25,33 +23,18 @@
     <article>
         <h2>Add a log for this vehicle</h2>
 
-        <form action="/log" method="POST">
+        <form action="{{ url_for('add_log') }}" method="POST">
+            <input type="hidden" name="vehicle_id" value="{{ vehicle.id }}">
 
-
-            <input type="hidden" 
-            name="vehicle_id" 
-            value="{{ vehicle.id }}"
-            >
-
-            <input type="text" 
-            name="action_taken" 
-            placeholder="Action taken" required
-            >
-
-            <input type="text" 
-            name="details" 
-            placeholder="Additional details" required 
-            >
-
-            <input type="number" 
-            name="odometer" 
-            placeholder="Odometer (in kms)" required
-            >
+            <input type="text" name="action_taken" placeholder="action taken" required>
+            <input type="text" name="details" placeholder="additional details" required>
+            <input type="number" name="odometer" placeholder="odometer (in kms)" required>
+            <input type="text" name="cost" placeholder="cost (in NZD)" required>
+            <input type="text" name="duration" placeholder="duration" required>
+             <input type="text" name="category" placeholder="category" required>
 
             <button>Add Log</button>
-
         </form>
     </article>
 </section>
-
 {% endblock %}
