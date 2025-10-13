@@ -9,10 +9,9 @@ Develop a bare-bones, working web application that provides the key functionalit
 ---
 
 ## Implemented Database Schema
+this is the DB schema that i have been using for the assessment, covering all of my data that i use for my website.
 
-Replace this text with notes regarding the DB schema.
-
-![SCREENSHOT OF DB SCHEMA](docs/screenshot_of_database.png)
+![alt text](<database schema.png>)
 
 
 ---
@@ -22,7 +21,18 @@ Replace this text with notes regarding the DB schema.
 The key functionality of the web app was implemented:
 
 **PLACE SCREENSHOTS AND/OR ANIMATED GIFS OF THE SYSTEM HERE**
-
+home page:
+![alt text](homepage.png),![alt text](<homepage gif .gif>)
+log add and view page:
+![alt text](logviewandaddpage.png), ![alt text](<log add and delete page gif.gif>)
+about page:
+![alt text](aboutpage.png)
+add vehicle page:
+![alt text](addvehiclepage.png), ![alt text](<add vehicle page gif.gif>)
+login page:
+![alt text](loginpage.png), ![alt text](<log in page.gif>)
+registration page:
+![alt text](registrationpage.png), ![alt text](<login and registration gif.gif>)
 
 ---
 
@@ -93,6 +103,5 @@ i changed the header (h1) of both the registration and login page to incorparte 
 ---
 
 ## Sprint Review
-
-Replace this text with a statement about how the sprint has moved the project forward - key success point, any things that didn't go so well, etc.
+this spirnt has helped signficnatly with the development of my website as i have been able to create the main features of the website that need to be made to make it usable for users. some of the key success points of this sprint would be getting the deletion of vehicles and logs working. this part took the longest for me becuase i was having issues with getting the log id and vehicle id, eventually i figuired it out and this feature of deletion made the website alot better. after this success i also added some more data such as engine, transmission, duration, catergory and a few more. some things that didnt go well was probably the time it took to get the deletion of vehicles and logs working. it took a lot longer than it needed to and i could of used that time more effectively and improving my website further.
 
