@@ -1,36 +1,44 @@
+
 /*=====================================================
-  User stylesheet - Building upon PicoCSS
+  Dark/Light Mode Styles
 =====================================================*/
 
-
-/* ABOUT PAGE -------------------------------------------- */
-
-#tech-stack {
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
+/* Smooth transition for all elements */
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-#tech-stack article {
-    flex: 1;
+/* Light Mode (default) */
+body.light-mode {
+  background-color: #ffffff;
+  color: #111111;
+}
+
+/* Dark Mode */
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
 }
 
 
-
-/* MESSAGES -------------------------------------------- */
-
-#messages ul {
-    width: fit-content;
-    margin: 2rem auto;
-    padding: 0;
+#messages .message.success {
+  color: var(--pico-color-green-500);
 }
 
-#messages .message {
-    list-style: none;
-    text-align: center;
-    margin-bottom: 1rem;
+#messages .message.error {
+  color: var(--pico-color-red-500);
 }
 
-#messages .message.success { color: var(--pico-color-green-500); }
-#messages .message.error   { color: var(--pico-color-red-500); }
+
+a, button {
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+body.light-mode a {
+  color: #0055cc;
+}
+
+body.dark-mode a {
+  color: #66aaff;
+}
 
