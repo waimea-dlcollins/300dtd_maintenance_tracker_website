@@ -25,22 +25,22 @@ window.onload = (event) => {
     const toggleButton = document.getElementById('theme-toggle');
     const html = document.documentElement;
 
-    if (!toggleButton) return; // In case there's no toggle button on some pages
+    if (!toggleButton) return; 
 
-    // Load saved theme (if any)
+ 
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
         html.setAttribute('data-theme', savedTheme);
     } else {
-        // Default to system preference
+       
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         html.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
     }
 
-    // Set initial icon
+
     toggleButton.textContent = html.getAttribute('data-theme') === 'dark' ? '💡' : '🌑';
 
-    // Toggle theme on click
+   
     toggleButton.addEventListener('click', () => {
         const newTheme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         html.setAttribute('data-theme', newTheme);

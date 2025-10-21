@@ -64,7 +64,7 @@ def show_vehicle(id):
         if result.rows:
             vehicle = result.rows[0]
             sql = """
-                SELECT id, action_taken, details, date, odometer, cost, duration, category
+                SELECT id, action_taken, details, date, odometer, cost, duration, category, next_service_due
                 FROM LOGS
                 WHERE vehicle_id = ?
             """
@@ -89,13 +89,14 @@ def add_log():
         cost = request.form.get("cost")
         duration = request.form.get("duration")
         category = request.form.get("category")
+        next_service_due = request.form.get("next_service_due")
 
-        sql = "INSERT INTO LOGS (vehicle_id, action_taken, details, odometer, cost, duration, category) VALUES (?, ?, ?, ?, ?, ?, ?)"
-        client.execute(sql, [vehicle_id, action_taken, details, odometer, cost, duration, category])
+        sql = "INSERT INTO LOGS (vehicle_id, action_taken, details, odometer, cost, duration, category, next_service_due) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+        client.execute(sql, [vehicle_id, action_taken, details, odometer, cost, duration, category, next_service_due ])
 
         return redirect(f"/vehicle/{vehicle_id}")
     
-    category
+    
 
 
 #-----------------------------------------------------------
@@ -167,6 +168,7 @@ def add_a_log():
     cost             = request.form.get("cost") or ""
     duration         = request.form.get("duration") or ""
     category         = request.form.get("category") or ""
+    next_service_due = request.form.get("next_service_due") or ""
 
     try:
         vehicle_id = int(vehicle_id_raw)
@@ -186,10 +188,10 @@ def add_a_log():
 
     with connect_db() as client:
         sql = """
-        INSERT INTO LOGS (vehicle_id, action_taken, details, odometer_kms, date, cost, duration, category)
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO LOGS (vehicle_id, action_taken, details, odometer_kms, date, cost, duration, category, next_service_due)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
         """
-        params = [vehicle_id, action_taken, details, odometer_kms, date_ts, cost, duration, category]
+        params = [vehicle_id, action_taken, details, odometer_kms, date_ts, cost, duration, category, next_service_due]
         client.execute(sql, params)
 
     flash(f"Maintenance log for vehicle {vehicle_id} added", "success")

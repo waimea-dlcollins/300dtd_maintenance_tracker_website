@@ -100,16 +100,6 @@ i changed the header (h1) of both the registration and login page to incorparte 
 **PLACE SCREENSHOTS AND/OR ANIMATED GIFS OF THE IMPROVED SYSTEM HERE**
 ![alt text](loginscreenshot.png)![alt text](registrationscreenshot.png)
 
-## light and dark mode
-
-when i was testing the website for core functions that make the website useable and appeling to the user i though about the addition of a dark mode, this would allow the user to switch between dark and light mode whenever they want. this would improve the user experience but allowing the user to change the brightness of the website via light and dark mode
-**PLACE SCREENSHOTS AND/OR ANIMATED GIFS OF THE TESTING HERE**
-![alt text](image-5.png) ![alt text](image-6.png)
-### Changes / Improvements
-
-the screenshots above was the icon being inplemeted but it wouldnt allow me to change through the dark and light mode i would have to reload the website, now with the improvements and changes i have made it now allows the user to change between light and dark mode without having to reload the wesbite, which allows for a overall better user experience. 
-**PLACE SCREENSHOTS AND/OR ANIMATED GIFS OF THE IMPROVED SYSTEM HERE**
-<video controls src="Vehicle List - Google Chrome 2025-10-21 09-54-31.mp4" title="Title"></video>
 
 ---
 

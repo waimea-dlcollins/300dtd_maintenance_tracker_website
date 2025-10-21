@@ -2,17 +2,17 @@
 
 {% block content %}
 <section id="vehicle_list">
-    <h1>{{ vehicle.make }} {{ vehicle.model }} - {{vehicle.engine}} - {{vehicle.transmission}} - {{vehicle.fuel}}</h1>
+    <h1>🛻 {{ vehicle.make }} {{ vehicle.model }} - {{vehicle.engine}} - {{vehicle.transmission}} - {{vehicle.fuel}}</h1>
     <p><strong>Year:</strong> {{ vehicle.year }}</p>
 
     {% if logs %}
         <ul>
         {% for log in logs %}
             <li>
-                <strong>{{ log.date }}</strong> {{ log.action_taken }} - {{ log.details }} - {{log.cost}} - {{log.duration}} - {{log.category}} ({{ log.odometer }} km)
+                <strong>🔧 {{ log.date }}</strong> {{ log.action_taken }} - {{ log.details }} - {{log.cost}} - {{log.duration}} - {{log.category}} - {{log.next_service_due}} - ({{ log.odometer }} km)
                 <form action="{{ url_for('delete_log', id=log.id) }}" method="POST">
                   <button>Delete</button>
-                </form>
+                </form> 
             </li>
         {% endfor %}
         </ul>
@@ -21,7 +21,7 @@
     {% endif %}
 
     <article>
-        <h2>Add a log for this vehicle</h2>
+        <h2>📝 Add a log for this vehicle</h2>
 
         <form action="{{ url_for('add_log') }}" method="POST">
             <input type="hidden" name="vehicle_id" value="{{ vehicle.id }}">
@@ -31,7 +31,8 @@
             <input type="number" name="odometer" placeholder="odometer (in kms)" required>
             <input type="text" name="cost" placeholder="cost (in NZD)" required>
             <input type="text" name="duration" placeholder="duration" required>
-             <input type="text" name="category" placeholder="category" required>
+            <input type="text" name="category" placeholder="category" required>
+            <input type="text" name="next service due" placeholder="next service due" required>
 
             <button>Add Log</button>
         </form>
