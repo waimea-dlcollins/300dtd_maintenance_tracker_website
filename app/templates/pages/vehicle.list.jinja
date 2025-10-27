@@ -14,17 +14,20 @@
         {% for vehicle in vehicles %}
             <li>
                 <a role="button" href="/vehicle/{{ vehicle.id }}">
-                    <strong> 🛻 {{ vehicle.make }} {{ vehicle.model }} - {{ vehicle.engine }} - {{ vehicle.transmission }} - {{ vehicle.fuel }}</strong>
+                    <strong>🛻 {{ vehicle.make }} {{ vehicle.model }} - {{ vehicle.engine }} - {{ vehicle.transmission }} - {{ vehicle.fuel }}</strong>
                     ({{ vehicle.year }})
                 </a>
-                <form action="/vehicle/{{ vehicle.id }}" method="POST">
-                    <button>
-                        Delete
-                    </button>
+                <form action="/vehicle/{{ vehicle.id }}" method="POST" style="display:inline;">
+                    <button>Delete 🗑️</button>
                 </form>
             </li>
         {% endfor %}
         </ul>
+
+        <a href="/download_logs" class="button">
+            ⬇️ Download all maintenance logs
+        </a>
+
     {% else %}
         <p>You have no vehicles added yet.</p>
     {% endif %}

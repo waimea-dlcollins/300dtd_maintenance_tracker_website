@@ -48,3 +48,4 @@ window.onload = (event) => {
         toggleButton.textContent = newTheme === 'dark' ? '💡' : '🌑';
     })
 };
+

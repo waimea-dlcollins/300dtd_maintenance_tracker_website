@@ -256,6 +256,39 @@ def delete_vehicle(id):
     flash("Vehicle deleted")
     return redirect("/")
 
+
+#-----------------------------------------------------------
+# Download all maintenance logs for the current user
+#-----------------------------------------------------------
+from flask import Response
+@app.get("/download_logs")
+@login_required
+def download_logs():
+    user_id = session["user_id"]
+
+    with connect_db() as client:
+        sql = """
+            SELECT V.make, V.model, L.action_taken, L.details, L.date, 
+                   L.odometer, L.cost, L.category
+            FROM LOGS L
+            JOIN VEHICLES V ON L.vehicle_id = V.id
+            WHERE V.owner = ?
+            ORDER BY V.make, V.model, L.date DESC
+        """
+        result = client.execute(sql, [user_id])
+        logs = result.rows
+        
+    csv_text = "Make,Model,Action,Details,Date,Odometer,Cost,Category\n"
+    for log in logs:
+        csv_text += f"{log['make']},{log['model']},{log['action_taken']},{log['details']},{log['date']},{log['odometer']},{log['cost']},{log['category']}\n"
+
+    return Response(
+        csv_text,
+        mimetype="text/csv",
+        headers={"Content-Disposition": "attachment; filename=maintenance_logs.csv"}
+    )
+
+
 #-----------------------------------------------------------
 # Registration page
 #-----------------------------------------------------------
