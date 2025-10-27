@@ -94,11 +94,11 @@ When refining the mainteance tracker website one of the problems that i realized
 Replace this text with notes any improvements you made as a result of the testing.
 When testing this system i had problems with using the right app to open the text based csv file of the logs the user has currently stored on thier vehicles that they own. After some trail and error i managed to figure out that mircosoft excel worked and could display the csv file of the users logs from their vehicle 
 **PLACE SCREENSHOTS AND/OR ANIMATED GIFS OF THE IMPROVED SYSTEM HERE**
-
+![alt text](<download logs .gif>)
 
 ---
 
 ## Sprint Review
 
 Replace this text with a statement about how the sprint has moved the project forward - key success point, any things that didn't go so well, etc.
-
+Overall this sprint went quite well, i managed to get lots of the refinements that the website needed to get completed which has changed the user experience of the website compelety
