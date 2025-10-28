@@ -103,17 +103,17 @@ Use complex techniques to develop a database means that, taking into account the
    - [x] **Processing of Data** to achieve the output is described
 
 3. You should use appropriate tools and complex techniques to organise and query the data:
-   - [ ] **Linking data in related tables** using queries or keys
-   - [ ] Writing **custom queries** to update the data (INSERT / UPDATE / DELETE)
+   - [x] **Linking data in related tables** using queries or keys
+   - [x] Writing **custom queries** to update the data (INSERT / UPDATE / DELETE)
 
 4. You should use appropriate tools and complex techniques to present the data:
-   - [ ] Creating **customised data displays from multiple tables** for web pages
-   - [ ] **Dynamically linking data** between the database and web pages
-   - [ ] Applying **data access permissions** as appropriate (user accounts)
+   - [x] Creating **customised data displays from multiple tables** for web pages
+   - [x] **Dynamically linking data** between the database and web pages
+   - [x] Applying **data access permissions** as appropriate (user accounts)
 
 5. You must apply appropriate data integrity and testing procedures:
-   - [ ] Show that any **presented data is correct** (e.g. matches database values / calculations)
-   - [ ] Show that any input user data **updates the database as expected**
+   - [x] Show that any **presented data is correct** (e.g. matches database values / calculations)
+   - [x] Show that any input user data **updates the database as expected**
 
 6. You need to explain and address relevant implications:
    - [ ] Identify the **implications most relevant** to your project
