@@ -12,22 +12,18 @@ the functionality implication was very important for the website i have created 
 the aesthetic implication was another big implication that affects how the website performs and looks overall for the user, so making sure that the aesthetic of the website was good was signficant to how good the website would be overall. one of the features that i added to make sure that the aesthetic of the website was good was adding inline blocks and other modifications to the buttons placed throughout my website to ensure that the buttons being used throughout the website we looking sleek and professional. this use of modifactions such as inline-block made the website look alot more modern and profesional compared to not using these commands. the design of the website using pico css also made a nig impact on the aesthetic and how the website looked when the user will be going throughout the website.
 
 ### end-user implication
+the end user implication ws another one of the important implications that i had to compelete for the website to be sufficent enough for the user to use well. Some of the design and features that i made into the website to make the it useable for the end user was making sure that the user had the ability to do things such as, adding vehicles, adding logs, deleting logs, deleting vehicles, making accounts and downloading their current logs to a csv file. These are the main features of the website that allows the user to track mainteance throughout there vehicles that they own and are published on their account. These main features allow the website to be apporiate for the end user when using the website for it designed purpose. the website can also work on many difference devices such as computers and phones.
 
-Replace this text with notes about what you did during the project to address the implication - design features, etc.
-
-
-### NAME OF IMPLICATION 5
-
-Replace this text with notes about what you did during the project to address the implication - design features, etc.
-
+### privacy implication
+the privacy of the user when using a product such as a website is one of the most important things when it comes to making something like a website. the privacy of the user when they are doing things such as logging in, adding new vehicles and adding new logs all needs to be stored in the data base the website uses, and making sure that this data is confidental is exetremly important. Throughout the process of making my mainteance tracker website i made sure to use secure data collection methods, when asking for things like passowrds and usernames. I also thought about not asking for to much infomation from the user. Asking for to much infomation from the user when using my website could deter them and make them want to close the tab and leave the website, not what you. All the tracker asks for it a username and password which keeps down the amount of data that is required from the user making them feel more safe.
 
 ---
 
 ## Overall Review
 
 Replace these words with a brief review of how the project went in terms of:
-- What went well?
-- What didn't go so well?
-- How did the testing/trialling impact the final system?
-- What would you do differently if you could?
+- What went well? - things that went quite well throughout the process of making my mainteance tracker website was getting the main functions made, i firstly started off by making the adding of logs and vehicles functioanl and after that was compeleted the rest of the features such as deletion of logs and vehicles and downloading the logs wasnt as hard as i had the base of the website made. 
+- What didn't go so well? - some things that didnt go so well throughout the creation of my mainteance tracker website was the deletion of logs and vehicles, considering that i knew the base of how to make these functions like adding vehicles and logs i thought it was going to be easy but it took me multiple lessons of figuring out how to get it to work, with the deletion of the logs i was struggling to get the id of the logs in the url. I would click on the delete log button and the url would just be blank with no log id as it didnt fetch it. After some time and figuring out how it works i got it to work in the end. 
+- How did the testing/trialling impact the final system? - the testing and trialling of the website impacted the final system of my website signficantly. Testing features like the deletion of logs and vehicles and the addition of logs and vehicles impacted the website signficantly. I tested where the data went and how it was delivered to and from and the database and eventually i managed to add more data for the user to add e.g engine, transmission, duration, category. the testing of these features allowed me to make them better.
+- What would you do differently if you could? - something that i would do differently next time if i had to the opporituny to do so would be getting more time to compelete the website. Although i am very happy with how the website turned out and the progress i made along the way i would like to have more time on a project such as this. If i had more time available to me i would be able to strech more and more features out of the website which could make it even better for the user when using it. Features such as emaling the user when their next mainteance is due for their vehicle and adding a search bar for the user so they can search for recent logs and vehicles that have been added.
 
